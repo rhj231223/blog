@@ -1,0 +1,79 @@
+{% extends 'cms_base.html' %}
+{% load static %}
+
+
+
+{% block header %}
+    <link rel="stylesheet" href="{% static 'common_static/wangEditor-3.1.0/release/wangEditor.min.css' %}">
+
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/moxie.js"></script>
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.dev.js"></script>
+    <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.js"></script>
+
+    <script src="{% static 'common_static/js/xtqiniu.js' %}"></script>
+    <script src="{% static 'js/cms_post_manage_pub.js' %}"></script>
+    <script src="{% static 'common_static/wangEditor-3.1.0/release/wangEditor.min.js' %}"></script>
+{% endblock %}
+
+{% block main_right %}
+    <div class="pub_post">
+        <form action="" method="post" class="form form_large">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">标题</label>
+                </div>
+                <input type="text" name="title" class="form-control" {% block titleValue %}{% endblock %}>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">缩略图</label>
+                </div>
+                <input type="text" class="form-control" name="thumbnail" placeholder="请输入url地址" {% block thumbnailValue %}{% endblock %}>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">作者</label>
+                </div>
+                <input type="text" name="author" class="form-control" readonly value="{{ cms_user.username }}">
+            </div>
+            <div class="label_checkbox">
+                <label for="" class="btn btn-info mr-3">标签</label>
+                {% for tag in tags %}
+                    {% if article %}
+                        {% if tag in article.tags %}
+                            <label for="" class="btn btn-success tag_btn" data_id="{{ tag.id }}" data_check="1">{{ tag.name }}</label>
+                        {% else %}
+                            <label for="" class="btn btn-secondary tag_btn" data_id="{{ tag.id }}" data_check="0">{{ tag.name }}</label>
+                        {% endif %}
+                    {% else %}
+                        <label for="" class="btn btn-secondary tag_btn" data_id="{{ tag.id }}" data_check="0">{{ tag.name }}</label>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+            <div class="add_tag_div mb-3">
+                <button class="btn btn-outline-danger" id="add_tag">新增标签</button>
+            </div>
+            <div id="editor" class="mb-3">
+                {% block contentValue %}
+
+                {% endblock %}
+            </div>
+
+            <div class="progress mb-3" id="form_progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0"  aria-valuemax="100" id="progress_box"
+                style="width:2%;">
+                    0%
+                </div>
+            </div>
+            <button class="btn btn-primary mb-3" id="upload_btn">上传图片或视频</button>
+            <div class="submit_btn_div">
+                {% block submit_btn %}
+                    <button id="submit_btn" class="btn btn-danger">立即发布</button>
+                {% endblock %}
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

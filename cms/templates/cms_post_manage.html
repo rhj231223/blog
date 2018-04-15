@@ -1,0 +1,109 @@
+{% extends 'cms_base.html' %}
+{% load static %}
+{% load tags %}
+
+{% block title %}
+    帖子管理
+{% endblock %}
+
+{% block page_title %}
+    帖子管理
+{% endblock %}
+
+{% block header %}
+    <script src="{% static 'js/cms_post_manage.js' %}"></script>
+{% endblock %}
+
+{% block  main_right %}
+    <div class="post_manage_div">
+        <a href="{% url 'cms_post_manage_pub' %}" class="btn btn-info mb-2" id="post_btn">发布帖子</a>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>创建时间</th>
+                    <th>标签</th>
+                    <th>阅读量</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="manage_tbody">
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.create_time|date:'Y-m-d h:i:s' }}</td>
+                        <td>
+                            {% for tag in article.tags %}
+                                {{ tag.name }}
+                            {% endfor %}
+                        </td>
+
+                        <td>{{ article.read_count }}</td>
+                        <td>
+                            {% if not article.is_delete %}
+                                <span class="badge badge-pill badge-success">正常</span>
+                            {% else %}
+                                <span class="badge badge-pill badge-danger">已被删除</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'cms_post_manage_edit' article_id=article.id %}" class="btn btn-primary edit_btn" data_artcle_id="{{ article.id }}">编辑</a>
+                            {% csrf_token %}
+                            {% if not article.is_delete %}
+                                <button class="btn btn-danger delete_btn" data_article_id="{{ article.id }}" data_to_delete="1">删除</button>
+                            {% else %}
+                                <button class="btn btn-success delete_btn" data_article_id="{{ article.id }}" data_to_delete="0">取消删除</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <div class="pag_div">
+
+            <ul class="pagination justify-content-center">
+                {% if not search_content %}
+                    {% if current_page > show_page_num %}
+                        <li class="page-item"><a href="{% url 'cms_post_manage' page=1 %}" class="page-link">首页</a></li>
+                    {% endif %}
+                    {% if current_page >= 2 %}
+                        <li class="page-item"><a href="{% url 'cms_post_manage' page=current_page|add:-1 %}" class="page-link">&laquo;</a></li>
+                    {% endif %}
+
+                    {% for page in page_li %}
+                        {% if page == current_page %}
+                            <li class="page-item active"><a href="{% url 'cms_post_manage' page=page %}" class="page-link">{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a href="{% url 'cms_post_manage' page=page %}" class="page-link">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="page-item"><span class="page-link">共 {{ total_page }} 页</span></li>
+
+                    {% if current_page < total_page %}
+                        <li class="page-item"><a href="{% url 'cms_post_manage' page=current_page|add:1 %}" class="page-link">&raquo;</a></li>
+                    {% endif %}
+                    {% if current_page <= show_end_num  %}
+                        <li class="page-item"><a href="{% url 'cms_post_manage' page=total_page %}" class="page-link">尾页</a></li>
+                    {% endif %}
+                {% endif %}
+
+
+                {% if search_content %}
+                    <li class="page-item"><span class="page-link">当前 {{ current_page }} 页</span></li>
+                {% endif %}
+                <li class="page-item"><span class="page-link">共 {{ total_page }} 页</span></li>
+                <div class="input-group col-2">
+                    <input type="text" class="form-control" name="input_page" placeholder="页数">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" id="btn_page">跳转</button>
+                    </div>
+
+                </div>
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}

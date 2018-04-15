@@ -1,0 +1,42 @@
+{% extends 'cms_base.html' %}
+{% load static %}
+
+{% block title %}
+    修改密码
+{% endblock %}
+
+{% block page_title %}
+    修改密码
+{% endblock %}
+
+{% block header %}
+    <script src="{% static 'js/cms_reset_pwd.js' %}"></script>
+{% endblock %}
+
+{% block main_right %}
+    <div id="reset_pwd">
+        <form action="" method="post" class="form form_middle">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">原密码</label>
+                </div>
+                <input type="password" name="old_pwd" class=" form-control input-group-input">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">新密码</label>
+                </div>
+                <input type="password" name="new_pwd" class=" form-control input-group-input">
+            </div>
+            <div class="input-group mb-5">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">确认密码</label>
+                </div>
+                <input type="password" name="new_pwd_repeat" class=" form-control input-group-input">
+            </div>
+            <button id="reset_pwd_btn" class="btn btn-primary">立即修改</button>
+
+        </form>
+    </div>
+{% endblock %}

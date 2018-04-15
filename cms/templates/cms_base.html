@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+        {% block title %}{% endblock %}
+    </title>
+    <meta charset="utf-8"/>
+    <meta name="keywords" content="html,css,javascript" />
+    <meta name="description" content="html,css,javascript" />
+
+{#    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="{% static 'css/cms_base.css' %}">
+    <script src="{% static 'js/cms_base.js' %}"></script>
+
+    {% include 'cms_include.html' %}
+    
+    <style type="text/css">
+        *{
+            margin:0; padding:0;
+             font-family:"Microsoft YaHei",Times,serif;
+            font-size: 14px;
+        }
+        a{text-decoration:none;}
+        li{list-style:none;}
+        
+
+
+        
+    </style>
+
+    {% block header %}
+
+    {% endblock %}
+
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row" id="header">
+            <div class="top col-md-12">
+                <div id="cms_title">博客管理系统</div>
+                <div id="nav_top">
+                    <img class="img-circle" src="{% static 'images/avatar.jpg' %}" alt="">
+                    <div id="user">{{ cms_user.username }}</div>
+
+                </div>
+        </div>
+        <div class="row main">
+            <div id="main_left" class="col-md-4 col-sm-0">
+                <form action="/cms/post_manage/1/" method="get" id="search" class="form">
+                    <div class="input-group" id="input_group">
+                        <input type="text" name="search" class="form-control" placeholder="search">
+                    </div>
+                </form>
+                <div class="nav flex-column flex_column">
+                    <a href="{% url 'cms_index' %}" class="nav-link nav_link" id="index">主页</a>
+                    <a href="{% url 'cms_profile' %}" class="nav-link nav_link" id="profile">个人信息</a>
+                    <a href="{% url 'cms_user_manage' %}" class="nav-link nav_link" id="user_manage">用户管理</a>
+                    <a href="{% url 'cms_post_manage' page=1 %}" class="nav-link nav_link" id="post_manage">帖子管理</a>
+                    <a href="" class="nav-link nav_link" id="comment_manage">评论管理</a>
+                </div>
+                <div class="nav flex-column flex_column logout">
+                    <a href="{% url 'cms_logout' %}" class="nav-link nav_link" >退出</a>
+                </div>
+
+            </div>
+            <div id="main_right" class="col-md-8 col-sm-12">
+                <h3>{% block page_title %}{% endblock %}</h3>
+                {%block main_right%}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    </div>
+	
+
+
+
+	
+</body>
+
+<script type="text/babel">
+    
+    
+</script>
+
+</html>

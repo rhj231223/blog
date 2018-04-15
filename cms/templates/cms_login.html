@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <meta charset="utf-8"/>
+    <meta name="keywords" content="html,css,javascript" />
+    <meta name="description" content="html,css,javascript" />
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    
+{#    <script src="https://cdn.jsdelivr.net/npm/vue@2.0.5/dist/vue.js"></script>		#}
+    
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.3.0/umd/react.production.min.js"></script> #}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.3.0/umd/react-dom.production.min.js"></script> #}
+{#    #}
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+    <style type="text/css">
+        *{
+            margin:0; padding:0;
+             font-family:"Microsoft YaHei",Times,serif;
+        }
+        a{text-decoration:none;}
+        li{list-style:none;}
+        
+
+
+        
+    </style>
+
+    {% include 'cms_include.html' %}
+    <link rel="stylesheet" href="{% static 'css/cms_login.css' %}">
+    <script src="{% static 'js/cms_login.js' %}"></script>
+
+
+</head>
+<body>
+
+    <div id="login">
+        <form action="" method="post" class="form-group form_middle">
+            <h1>登录</h1>
+            {% csrf_token %}
+            {% if message %}
+                <p class="alert alert-danger">{{ message }}</p>
+            {% endif %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">用户名</span>
+                </div>
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">密码</span>
+                </div>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">验证码</span>
+                </div>
+                <input type="text" class="form-control" name="captcha">
+                <img src="{% url 'common_captcha' %}" alt="" class="captcha_img">
+            </div>
+            <br>
+            <div class="form-check">
+                <input type="checkbox" name="remember" class="form-check-input">
+                <label for="" class="form-check-label"> 记住我?</label>
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary btn-block">立即登录</button>
+            </div>
+        </form>
+    </div>
+	
+	
+
+
+
+	
+</body>
+
+<script type="text/babel">
+    
+    
+</script>
+
+</html>

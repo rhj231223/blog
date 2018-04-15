@@ -1,0 +1,45 @@
+{% extends 'cms_base.html' %}
+
+
+{% block title %}
+    个人信息
+{% endblock %}
+
+{% block page_title %}
+    个人信息
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+
+{% block main_right %}
+    <table class="table table-bordered table-hover ">
+        <tbody>
+            <tr>
+                <td>用户名</td>
+                <td>{{ cms_user.username }}</td>
+                <td>创建时间</td>
+                <td>{{ cms_user.create_time| date:'Y-m-d H:i:s' }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ cms_user.email }}</td>
+                <td>是否活动</td>
+                <td>
+                    {% if cms_user.is_active == 1 %}
+                        <span class="badge badge-pills badge-success">可用</span>
+                    {% else %}
+                        <span class="badge badge-pills badge-danger">已禁用</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="reset">
+        <a href="{% url 'cms_profile_reset_pwd' %}" class="btn btn-primary">修改密码</a>
+        <a href="{% url 'cms_profile_reset_email' %}" class="btn btn-danger">修改邮箱</a>
+    </div>
+{% endblock %}

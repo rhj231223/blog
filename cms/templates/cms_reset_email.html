@@ -1,0 +1,41 @@
+{% extends 'cms_base.html' %}
+{%  load static %}
+
+{% block title %}
+    修改邮箱
+{% endblock %}
+
+{% block page_title %}
+    修改邮箱
+{% endblock %}
+
+{% block header %}
+    <script src="{% static 'js/cms_reset_email.js' %}"></script>
+{% endblock %}
+
+{% block main_right %}
+    <div>
+        <form action="" method="post" class="form form_middle">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">新邮箱</label>
+                </div>
+                <input type="email" name="email" class="form-control">
+                <div class="input-group-append">
+                    <button id="send_btn" class="btn btn-danger">发送邮件</button>
+                </div>
+            </div>
+
+            <div class="input-group mb-5">
+                <div class="input-group-prepend">
+                    <label for="" class="input-group-text">验证码</label>
+                </div>
+                <input type="text" class="form-control" name="email_captcha">
+            </div>
+
+            <button id="submit_btn" class="btn btn-primary">立即修改</button>
+
+        </form>
+    </div>
+{% endblock %}

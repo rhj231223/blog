@@ -1,0 +1,112 @@
+{% extends 'blog_base.html' %}
+{% load static %}
+
+{% block title %}
+    博客内容
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/blog_article_detail.css' %}">
+    <script src="{% static 'js/blog_article_detail.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <div id="main_article" class="m20">
+        <div class="info">
+            <img src="{% static 'images/avatar.jpg' %}" alt="" class="avatar_c_card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" viewBox="0 0 19 19" class="blog-icon-fill" style="fill-rule: evenodd;"><path d="M15.3812,6.495914 L12.6789333,8.77258837 C12.6191333,8.84477644 12.5099333,8.85722265 12.4354,8.79997005 C12.4215333,8.79001308 12.4094,8.77756686 12.3998667,8.76429089 L9.78686667,6.14327115 C9.67766667,5.99225704 9.46186667,5.95491839 9.305,6.05863687 C9.26946667,6.08186981 9.23913333,6.11091099 9.21573333,6.14493065 L6.60013333,8.81075677 C6.5464,8.88626383 6.43893333,8.90534803 6.3592,8.85390366 C6.34446667,8.84394669 6.33146667,8.83233022 6.32106667,8.81905425 L3.61966667,6.50587098 C3.5018,6.36149485 3.28426667,6.33577266 3.13346667,6.44861837 C3.0494,6.51167921 3,6.60792997 3,6.70998895 L4,14 L15,14 L16,6.70169148 C16,6.51831719 15.8448667,6.36979232 15.6533333,6.36979232 C15.5476,6.36979232 15.4470667,6.41625821 15.3812,6.495914 Z"></path></svg>
+            <span class="middot">&middot;</span>
+            <span>{{ article.create_time|date:'m-d' }}</span>
+            <span class="middot">&middot;</span>
+            <span> {{ article.create_time|date:'H:i' }}</span>
+            <div class="tag_list">
+                <span class="tag_span">
+                    <svg t="1523721184433" class="icon_tag" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2011" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css"></style></defs><path d="M864 128 545.28 128C534.4 126.08 522.88 129.28 514.56 137.6l-441.6 441.6C65.28 586.88 62.72 597.12 63.36 606.72 62.72 616.96 65.28 627.2 72.96 634.88l313.6 313.6c7.68 7.68 17.92 10.88 27.52 9.6 10.24 1.28 21.12-1.92 28.8-9.6l441.6-441.6c3.84-3.84 6.4-8.96 8.32-14.08C894.72 488.96 896 484.48 896 480l0-320C896 142.08 881.92 128 864 128zM832 460.16 414.72 876.8 144.64 606.72 560 192 832 192 832 460.16zM640 448c35.2 0 64-28.8 64-64 0-35.2-28.8-64-64-64C604.8 320 576 348.8 576 384 576 419.2 604.8 448 640 448z" p-id="2012"></path>
+                </svg>
+                </span>
+                {% for tag in article.tags %}
+                    <span >{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="article_title">
+            {{ article.title }}
+        </div>
+        <div class="article_content">
+            {{ article.content|safe }}
+        </div>
+        <div class="view_info">
+           <span>{{ article.read_count }} 浏览</span>
+           <span>{{ article.comments|length|default:0}} 评论</span>
+        </div>
+    </div>
+    <div class="recent_posts wp m20">
+        <div class="recent_title">
+            <span class="recent_span">最新文章</span>
+        <span class="see_all_span"><a class="a_hover" href="{% url 'blog_articles' page=1 %}">查看全部</a></span>
+        </div>
+        <div class="mc">
+            {% for article in articles %}
+                <div class="card card_c" >
+                    <a href="{% url 'blog_article_detail' article_id=article.id %}">
+                        <img class="card-img-top" src="{{ article.thumbnail }}" alt="Card image cap">
+                    </a>
+                    <div class="card-body card_body">
+                        <div class="card-title card_title"><a href="{% url 'blog_article_detail' article_id=article.id %}">{{ article.title|truncatechars:10 }}</a></div>
+                        <div class="icon_info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" viewBox="0 0 19 19" role="img" class="icon_eye">
+                                <path d="M18.6514224,10.4604595 C17.3924224,11.9688254 13.9774224,15.4790227 9.46342244,15.5 L9.42442244,15.5 C6.26242244,15.5 3.20842244,13.7938483 0.345422443,10.4264963 C-0.115140814,9.88163847 -0.115140814,9.08439833 0.345422443,8.5395405 C1.60442244,7.03117456 5.01942244,3.52097727 9.53342244,3.5 L9.57342244,3.5 C12.7354224,3.5 15.7894224,5.20615167 18.6524224,8.5735037 C19.1122856,9.11875503 19.1118633,9.91569484 18.6514224,10.4604595 Z M17.8674224,9.2228003 C15.2084224,6.09518855 12.4194224,4.50990594 9.57442244,4.50990594 L9.54042244,4.50990594 C5.46142244,4.52888537 2.30642244,7.78335969 1.14042244,9.18084575 C0.991393136,9.3517953 0.988008897,9.60533857 1.13242244,9.78019645 C3.79142244,12.9078082 6.58142244,14.4920919 9.42542244,14.4920919 L9.46042244,14.4920919 C13.5394224,14.4741114 16.6934224,11.2196371 17.8604224,9.822151 C18.0095734,9.6511131 18.0125381,9.39726759 17.8674224,9.2228003 L17.8674224,9.2228003 Z M9.49942244,13.3932823 C7.35251405,13.3646853 5.63255349,11.6080263 5.65157552,9.46333471 C5.67059754,7.31864313 7.42144652,5.59270141 9.56852513,5.6021069 C11.7156037,5.61151239 13.4512316,7.35272696 13.4514224,9.49750271 C13.4349115,11.6625186 11.6668124,13.4054651 9.49942244,13.3932823 L9.49942244,13.3932823 Z M9.49942244,6.61762258 C7.91092198,6.63961751 6.63891624,7.93990193 6.65354481,9.52676854 C6.66817338,11.1136351 7.96393479,12.3902997 9.55257137,12.3830695 C11.1412079,12.3758393 12.4252698,11.0874333 12.4254224,9.50049946 C12.4127657,7.89797688 11.1037033,6.60820738 9.49942244,6.61762258 L9.49942244,6.61762258 Z"></path></svg>
+                            <span>{{ article.read_count }}</span>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" viewBox="0 0 19 19" role="img" class="icon_message">
+                                <path d="M9.5,13 L15,13 C15.5522847,13 16,12.5522847 16,12 L16,12 L16,5 C16,4.44771525 15.5522847,4 15,4 L15,4 L4,4 L4,4 C3.44771525,4 3,4.44771525 3,5 L3,12 C3,12.5522847 3.44771525,13 4,13 L7,13 L7,15.5 L9.5,13 Z M15.0081158,13.973325 L10,13.973325 L7.42191625,16.5445317 C6.63661359,17.3277395 6,17.0667904 6,15.9700713 L6,13.973325 L3.99188419,13.973325 C2.89179693,13.973325 2,13.0706688 2,11.979044 L2,4.994281 C2,3.89287002 2.89339733,3 3.99188419,3 L15.0081158,3 C16.1082031,3 17,3.90265618 17,4.994281 L17,11.979044 C17,13.0804549 16.1066027,13.973325 15.0081158,13.973325 Z"></path></svg>
+                            <span class="message_span">{{ article.comments|length|default:0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="add_comment wp">
+        <div class="comment_main">
+            <form action="" method="post" id="add_comment_form" data_article_id="{{ article.id }}">
+                {% csrf_token %}
+                <div class="comment_title_info mb-3">
+                    <div class="i_div left mr-2">
+                        <img class="avatar_circle default_avatar" src="{% static 'images/default_avatar.jpg' %}" alt="">
+                    </div>
+                    {% if cms_user %}
+                        <div id="svg_div" data_username="{{ cms_user.username }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" viewBox="0 0 19 19" class="blog-icon-fill left" style="fill-rule: evenodd;"><path d="M15.3812,6.495914 L12.6789333,8.77258837 C12.6191333,8.84477644 12.5099333,8.85722265 12.4354,8.79997005 C12.4215333,8.79001308 12.4094,8.77756686 12.3998667,8.76429089 L9.78686667,6.14327115 C9.67766667,5.99225704 9.46186667,5.95491839 9.305,6.05863687 C9.26946667,6.08186981 9.23913333,6.11091099 9.21573333,6.14493065 L6.60013333,8.81075677 C6.5464,8.88626383 6.43893333,8.90534803 6.3592,8.85390366 C6.34446667,8.84394669 6.33146667,8.83233022 6.32106667,8.81905425 L3.61966667,6.50587098 C3.5018,6.36149485 3.28426667,6.33577266 3.13346667,6.44861837 C3.0494,6.51167921 3,6.60792997 3,6.70998895 L4,14 L15,14 L16,6.70169148 C16,6.51831719 15.8448667,6.36979232 15.6533333,6.36979232 C15.5476,6.36979232 15.4470667,6.41625821 15.3812,6.495914 Z"></path></svg>
+                        </div>
+                    {% else %}
+                        <input type="text" class="form-control fc col-3 input_name" placeholder="请输入用户名" name="username">
+                    {% endif %}
+                </div>
+                <input type="text" name="content" class="form-control mb-3 fc" placeholder="请输入评论">
+                <div class="comment_btn_div">
+                    <button id="comment_btn" class="btn">发布评论</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="comments wp">
+        {% for comment in comments %}
+            <div class="single_comment">
+
+            <div class="comment_title_info mb-3">
+                <div class="i_div left mr-2">
+                    <img class="avatar_circle default_avatar" src="{% static 'images/default_avatar.jpg' %}" alt="">
+                </div>
+                <span>{{ comment.author }}</span>
+                <span class="date_time">{{ comment.create_time|date:'H:i' }}</span>
+                <span class="date_time">&middot;</span>
+                <span class="date_time">{{ comment.create_time|date:'Y-m' }}</span>
+            </div>
+            <p>{{ comment.content }}</p>
+        </div>
+        {% endfor %}
+
+
+    </div>
+{% endblock %}

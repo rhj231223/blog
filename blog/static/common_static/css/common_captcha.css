@@ -1,0 +1,10 @@
+.graph_box{
+    width:80px;
+    height:30px;
+    padding:0;
+    margin: 0;
+}
+
+.graph_box:hover{
+    cursor:pointer;
+}

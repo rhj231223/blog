@@ -1,0 +1,31 @@
+{% extends 'cms_post_base.html' %}
+{% load static %}
+
+{% block header %}
+    {{ block.super }}
+    <script src="{% static 'js/cms_post_manage_edit.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+    编辑帖子
+{% endblock %}
+
+{% block page_title %}
+    编辑帖子
+{% endblock %}
+
+{% block titleValue %}
+    value="{{ article.title }}"
+{% endblock %}
+
+{% block contentValue %}
+    {{ article.content|safe }}
+{% endblock %}
+
+{% block thumbnailValue %}
+    {{ article.thumbnail }}
+{% endblock %}
+
+{% block submit_btn %}
+     <button id="edit_btn" data_article_id="{{ article.id }}" class="btn btn-danger">立即保存</button>
+{% endblock %}
